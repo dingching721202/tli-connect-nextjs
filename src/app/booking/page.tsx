@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import BookingSystem from '../../components/BookingSystem';
 import { useAuth } from '@/contexts/AuthContext';
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -10,6 +10,7 @@ import Navigation from '@/components/Navigation';
 export default function BookingPage() {
   const { user, loading, hasPermission } = useAuth();
   const router = useRouter();
+    const pathname = usePathname();
 
   useEffect(() => {
     if (loading) return;
@@ -18,7 +19,7 @@ export default function BookingPage() {
     } else if (!hasPermission('book_courses')) {
       router.replace('/dashboard');
     }
-  }, [user, loading, hasPermission, router]);
+  }, [user, loading, hasPermission, pathname, router]);
 
   if (loading) {
     return <LoadingSpinner />;
